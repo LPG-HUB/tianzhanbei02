@@ -38,6 +38,8 @@ async function initMap() {
         zoom: props.zoom
       })
 
+      if (!map) return
+
       // 添加缩放工具条
       const toolBar = new AMap.ToolBar({
         position: {
@@ -93,14 +95,18 @@ function addMarkers() {
       marker.on('click', () => {
         emit('destinationClick', dest)
         // 地图移动到标记位置
-        if (dest.location.coordinates) {
-          map.setCenter([dest.location.coordinates.lng, dest.location.coordinates.lat])
+        if (dest.location.coordinates && map) {
+          map.setCenter(new AMap.LngLat(dest.location.coordinates.lng, dest.location.coordinates.lat))
           map.setZoom(8)
         }
-        infoWindow.open(map, marker.getPosition())
+        if (map) {
+          infoWindow.open(map, marker.getPosition())
+        }
       })
 
-      map.add(marker)
+      if (map) {
+        map.add(marker)
+      }
       markers.push(marker)
     }
   })
@@ -108,7 +114,10 @@ function addMarkers() {
 
 // 清除标记
 function clearMarkers() {
-  if (!map) return
+  if (!map) {
+    markers = []
+    return
+  }
   markers.forEach(marker => {
     map.remove(marker)
   })

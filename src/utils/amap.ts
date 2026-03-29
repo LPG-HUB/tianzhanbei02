@@ -9,7 +9,7 @@ export const AMAP_CONFIG = config
 
 // 类型辅助函数
 function getAMap() {
-  return (window as any).AMap
+  return (window as any).AMap as any
 }
 
 /**
