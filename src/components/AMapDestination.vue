@@ -115,9 +115,10 @@ function addMarkers() {
 // 清除标记
 function clearMarkers() {
   markers = []
-  if (!map) return
+  const mapInstance = map
+  if (!mapInstance) return
   markers.forEach(marker => {
-    map.remove(marker)
+    mapInstance.remove(marker)
   })
 }
 
