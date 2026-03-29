@@ -3,6 +3,10 @@
  */
 
 import { AMAP_CONFIG as config } from '@/config/amap.config'
+import type { AMapNamespace } from '@/types/amap'
+
+// 声明全局 AMap 对象
+declare const AMap: AMapNamespace
 
 // 导出配置供外部使用
 export const AMAP_CONFIG = config

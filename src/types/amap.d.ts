@@ -2,11 +2,32 @@
  * 高德地图API类型定义
  */
 
+// 导出 AMapNamespace 类型供外部使用
+export interface AMapNamespace {
+  Map: typeof AMapNamespace.Map
+  LngLat: typeof AMapNamespace.LngLat
+  Pixel: typeof AMapNamespace.Pixel
+  Marker: typeof AMapNamespace.Marker
+  InfoWindow: typeof AMapNamespace.InfoWindow
+  Size: typeof AMapNamespace.Size
+  Geocoder: typeof AMapNamespace.Geocoder
+  PlaceSearch: typeof AMapNamespace.PlaceSearch
+  AutoComplete: typeof AMapNamespace.AutoComplete
+  ToolBar: typeof AMapNamespace.ToolBar
+  Scale: typeof AMapNamespace.Scale
+  ControlBar: typeof AMapNamespace.ControlBar
+  Geolocation: typeof AMapNamespace.Geolocation
+  MarkerClusterer: typeof AMapNamespace.MarkerClusterer
+}
+
 declare global {
   interface Window {
     AMap: AMapNamespace
   }
 }
+
+// 实际实现
+declare const AMap: AMapNamespace
 
 namespace AMapNamespace {
   // 地图类

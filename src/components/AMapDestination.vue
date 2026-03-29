@@ -4,6 +4,9 @@ import type { Destination } from '@/api/types/travel'
 import { loadAMapScript, AMAP_CONFIG } from '@/utils/amap'
 import type { AMapNamespace } from '@/types/amap'
 
+// 声明全局 AMap 对象
+declare const AMap: AMapNamespace
+
 interface Props {
   destinations: Destination[]
   height?: string
