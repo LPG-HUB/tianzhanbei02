@@ -3,13 +3,14 @@
  */
 
 import { AMAP_CONFIG as config } from '@/config/amap.config'
-import type { AMapNamespace } from '@/types/amap'
-
-// 声明全局 AMap 对象
-declare const AMap: AMapNamespace
 
 // 导出配置供外部使用
 export const AMAP_CONFIG = config
+
+// 类型辅助函数
+function getAMap() {
+  return (window as any).AMap
+}
 
 /**
  * 加载高德地图API脚本
@@ -50,7 +51,7 @@ export async function geocodeAddress(address: string): Promise<{ lng: number; la
     await loadAMapScript()
 
     return new Promise((resolve, reject) => {
-      const geocoder = new AMap.Geocoder()
+      const geocoder = new getAMap().Geocoder()
       geocoder.getLocation(address, (status: string, result: any) => {
         if (status === 'complete' && result.geocodes.length) {
           const location = result.geocodes[0].location
@@ -77,7 +78,7 @@ export async function reverseGeocode(lng: number, lat: number): Promise<string |
     await loadAMapScript()
 
     return new Promise((resolve, reject) => {
-      const geocoder = new AMap.Geocoder()
+      const geocoder = new getAMap().Geocoder()
       geocoder.getAddress([lng, lat], (status: string, result: any) => {
         if (status === 'complete' && result.regeocode) {
           resolve(result.regeocode.formattedAddress)
@@ -99,8 +100,8 @@ export function calculateDistance(
   point1: { lng: number; lat: number },
   point2: { lng: number; lat: number }
 ): number {
-  const p1 = new AMap.LngLat(point1.lng, point1.lat)
-  const p2 = new AMap.LngLat(point2.lng, point2.lat)
+  const p1 = new getAMap().LngLat(point1.lng, point1.lat)
+  const p2 = new getAMap().LngLat(point2.lng, point2.lat)
   return p1.distance(p2)
 }
 
@@ -116,11 +117,10 @@ export async function searchNearby(
     await loadAMapScript()
 
     return new Promise((resolve, reject) => {
-      const placeSearch = new AMap.PlaceSearch({
+      const placeSearch = new getAMap().PlaceSearch({
         type: keywords,
         pageSize: 20,
-        pageIndex: 1,
-        radius: radius
+        pageIndex: 1
       })
 
       placeSearch.searchNearBy(

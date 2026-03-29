@@ -4,9 +4,6 @@ import type { Destination } from '@/api/types/travel'
 import { loadAMapScript, AMAP_CONFIG } from '@/utils/amap'
 import type { AMapNamespace } from '@/types/amap'
 
-// 声明全局 AMap 对象
-declare const AMap: AMapNamespace
-
 interface Props {
   destinations: Destination[]
   height?: string
@@ -23,8 +20,8 @@ const emit = defineEmits<{
 }>()
 
 const mapContainer = ref<HTMLElement | null>(null)
-let map: AMapNamespace.Map | null = null
-let markers: AMapNamespace.Marker[] = []
+let map: InstanceType<typeof AMapNamespace.Map> | null = null
+let markers: InstanceType<typeof AMapNamespace.Marker>[] = []
 
 // 初始化地图
 async function initMap() {
@@ -35,6 +32,7 @@ async function initMap() {
 
     if (mapContainer.value) {
       // 创建地图实例
+      const AMap = (window as any).AMap
       map = new AMap.Map(mapContainer.value, {
         ...AMAP_CONFIG.defaultMapConfig,
         zoom: props.zoom
@@ -67,6 +65,8 @@ function addMarkers() {
 
   // 清除现有标记
   clearMarkers()
+
+  const AMap = (window as any).AMap
 
   props.destinations.forEach(dest => {
     if (dest.location.coordinates) {

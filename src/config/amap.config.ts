@@ -38,7 +38,7 @@ export const AMAP_CONFIG = {
   // 地图默认配置
   defaultMapConfig: {
     zoom: 4,
-    center: [104.1954, 35.8617], // 中国中心点
+    center: [104.1954, 35.8617] as [number, number], // 中国中心点
     viewMode: '2D',
     mapStyle: 'amap://styles/normal',
     features: ['bg', 'road', 'building', 'point']
