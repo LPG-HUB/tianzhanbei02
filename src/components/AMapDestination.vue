@@ -114,14 +114,11 @@ function addMarkers() {
 
 // 清除标记
 function clearMarkers() {
-  if (!map) {
-    markers = []
-    return
-  }
+  markers = []
+  if (!map) return
   markers.forEach(marker => {
     map.remove(marker)
   })
-  markers = []
 }
 
 // 监听目的地变化
