@@ -3,6 +3,7 @@ import AppLayout from '@/components/layout/AppLayout.vue'
 import { useTravelStore } from '@/stores/travel.store'
 import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { getCityLogo, getAvailableCities, hasCityLogo } from '@/utils/cityLogos'
 
 const travelStore = useTravelStore()
 const route = useRoute()
@@ -149,6 +150,48 @@ function handleImageError(event: Event) {
   const img = event.target as HTMLImageElement
   img.style.display = 'none'
 }
+
+// 从行程标题中提取城市名称
+function getCityNameFromTitle(title: string): string | null {
+  if (!title) return null
+  
+  // 尝试匹配常见的城市名称模式
+  const patterns = [
+    /(.+?)(?:游 | 之旅 | 自由行 | 行程 | 旅游)/,  // "北京游" -> "北京"
+    /(.+?)(?:\d+天 |\d+日)/,  // "北京 5 日游" -> "北京"
+    /(.+?)(?:行 | 玩 | 逛)/,  // "北京行" -> "北京"
+  ]
+  
+  for (const pattern of patterns) {
+    const match = title.match(pattern)
+    if (match && match[1]) {
+      const cityName = match[1].trim()
+      // 检查是否是城市名称
+      if (hasCityLogo(cityName)) {
+        return cityName
+      }
+    }
+  }
+  
+  // 尝试直接匹配标题中的城市名
+  const availableCities = getAvailableCities()
+  for (const city of availableCities) {
+    if (title.includes(city)) {
+      return city
+    }
+  }
+  
+  return null
+}
+
+// 获取行程标题对应的城市标志
+function getCityLogoFromTitle(title: string): string | null {
+  const cityName = getCityNameFromTitle(title)
+  if (cityName) {
+    return getCityLogo(cityName)
+  }
+  return null
+}
 </script>
 
 <template>
@@ -179,6 +222,14 @@ function handleImageError(event: Event) {
         <!-- 行程标题和状态 -->
         <div class="trip-title-section">
           <div v-if="!isEditing" class="title-display">
+            <!-- 城市标志 -->
+            <img 
+              v-if="getCityLogoFromTitle(trip.title)" 
+              :src="getCityLogoFromTitle(trip.title)!" 
+              :alt="trip.title"
+              class="city-logo"
+              @error="handleImageError"
+            />
             <h1>{{ trip.title }}</h1>
             <span :class="['status-badge', `status-${trip.status}`]">
               {{ trip.status === 'ongoing' ? '进行中' :
@@ -518,6 +569,32 @@ function handleImageError(event: Event) {
 
 .btn-back:hover {
   color: #3a5ce5;
+}
+
+/* 城市标志样式 */
+.city-logo {
+  height: 60px;
+  width: auto;
+  margin-right: 15px;
+  object-fit: contain;
+  vertical-align: middle;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1));
+  transition: transform 0.3s;
+}
+
+.city-logo:hover {
+  transform: scale(1.1);
+}
+
+.title-display {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.title-display h1 {
+  margin: 0;
+  flex: 1;
 }
 
 .btn-outline {
