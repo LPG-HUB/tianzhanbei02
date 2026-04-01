@@ -17,12 +17,22 @@ const isLoading = computed(() => destinationStore.isLoading)
 
 // 初始化时加载目的地数据
 onMounted(async () => {
-  // 如果本地没有数据，则从API加载
+  // 清除旧的 localStorage 数据（强制刷新）
+  const oldData = localStorage.getItem('travel_platform_destinations')
+  if (oldData) {
+    const parsed = JSON.parse(oldData)
+    // 如果旧数据只有 6 个或更少，清除它
+    if (parsed.length <= 6) {
+      localStorage.removeItem('travel_platform_destinations')
+    }
+  }
+  
+  // 如果本地没有数据，则从 API 加载
   if (destinations.value.length === 0) {
     await destinationStore.loadDestinationsFromAPI()
   }
   
-  // 如果API加载失败或没有数据，使用默认数据
+  // 如果 API 加载失败或没有数据，使用默认数据
   if (destinations.value.length === 0) {
     initializeDefaultDestinations()
   }
