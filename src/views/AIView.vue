@@ -72,7 +72,7 @@ function parseTripContent(content: string) {
     for (let i = 1; i <= dayCount; i++) {
       trip.days!.push({
         label: `第${i}天`,
-        date: new Date(Date.now() + (i - 1) * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+        date: new Date(Date.now() + (i - 1) * 24 * 60 * 60 * 1000).toISOString().split('T')[0]!,
         slots: []
       })
     }
