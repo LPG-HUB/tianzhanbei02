@@ -1,17 +1,31 @@
 <script setup lang="ts">
 import AppLayout from '@/components/layout/AppLayout.vue'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useTravelStore } from '@/stores/travel.store'
+import { useRouter } from 'vue-router'
 import { marked } from 'marked'
 
 const travelStore = useTravelStore()
+const router = useRouter()
 const message = ref('')
 const isLoading = ref(false)
 const chatHistory = ref<Array<{ sender: string; content: string }>>([])
+const isImporting = ref(false)
 
 // 将Markdown转换为HTML
 const renderMarkdown = (content: string) => {
   return marked(content)
+}
+
+// 检查消息是否包含行程信息
+const hasTripInfo = (index: number) => {
+  const msg = chatHistory.value[index]
+  if (!msg || msg.sender !== 'ai') return false
+  const content = msg.content.toLowerCase()
+  return content.includes('行程') || 
+         content.includes('第1天') || 
+         content.includes('第一天') ||
+         content.includes('day 1')
 }
 
 async function sendMessage() {
@@ -31,6 +45,65 @@ async function sendMessage() {
     chatHistory.value.push({ sender: 'ai', content: '抱歉，AI暂时无法响应，请稍后再试。' })
   } finally {
     isLoading.value = false
+  }
+}
+
+// 解析AI生成的行程内容
+function parseTripContent(content: string) {
+  // 这里实现简单的行程内容解析逻辑
+  // 实际应用中，可能需要更复杂的解析逻辑或让AI返回结构化数据
+
+  const trip = {
+    title: 'AI生成的行程',
+    start: new Date().toISOString().split('T')[0],
+    end: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+    status: 'draft',
+    source: 'ai',
+    description: content,
+    days: []
+  }
+
+  // 尝试提取天数信息
+  const dayMatches = content.match(/(?:第|Day)\s*(\d+)\s*(?:天|day)/gi)
+  if (dayMatches && dayMatches.length > 0) {
+    const dayCount = Math.max(...dayMatches.map(m => parseInt(m.match(/\d+/)![0])))
+
+    for (let i = 1; i <= dayCount; i++) {
+      trip.days.push({
+        label: `第${i}天`,
+        date: new Date(Date.now() + (i - 1) * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+        slots: []
+      })
+    }
+  }
+
+  return trip
+}
+
+// 将AI生成的行程导入到行程中
+async function importTrip(index: number) {
+  if (isImporting.value) return
+
+  try {
+    isImporting.value = true
+    const aiMessage = chatHistory.value[index]
+    if (!aiMessage) return
+
+    // 解析AI生成的行程内容
+    const tripData = parseTripContent(aiMessage.content)
+
+    // 保存行程
+    const savedTrip = travelStore.saveTrip(tripData)
+
+    if (savedTrip) {
+      // 跳转到行程详情页面
+      router.push(`/trip/${savedTrip.id}`)
+    }
+  } catch (error) {
+    console.error('导入行程失败:', error)
+    alert('导入行程失败，请稍后再试')
+  } finally {
+    isImporting.value = false
   }
 }
 
@@ -90,6 +163,17 @@ function startNewChat() {
                 <div class="message-content">
                   <div class="message-text" v-html="renderMarkdown(msg.content)"></div>
                   <div class="message-time">{{ new Date().toLocaleTimeString() }}</div>
+                  <!-- 添加导入行程按钮 -->
+                  <div v-if="msg.sender === 'ai' && hasTripInfo(index)" class="message-actions">
+                    <button 
+                      class="btn btn-import" 
+                      @click="importTrip(index)"
+                      :disabled="isImporting"
+                    >
+                      <span v-if="isImporting">导入中...</span>
+                      <span v-else>📥 导入为行程</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -344,6 +428,38 @@ function startNewChat() {
 .chat-message-user .message-time {
   color: rgba(255, 255, 255, 0.7);
   text-align: left;
+}
+
+/* 导入按钮样式 */
+.message-actions {
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-import {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.btn-import:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.btn-import:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
 }
 
 /* 图片消息样式 */
