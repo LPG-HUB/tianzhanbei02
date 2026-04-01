@@ -206,7 +206,7 @@ function getStatusText(status: string) {
                   </span>
                   <span class="meta-item">
                     <span class="meta-icon">🚗</span>
-                    {{ trip.transportation || '交通未设置' }}
+                    {{ typeof trip.transportation === 'string' ? trip.transportation : (trip.transportation?.primary || '交通未设置') }}
                   </span>
                 </div>
               </div>

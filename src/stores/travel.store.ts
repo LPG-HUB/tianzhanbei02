@@ -130,12 +130,17 @@ export const useTravelStore = defineStore('travel', () => {
       trips.value.push(newTrip)
       return newTrip
     } else {
-      // 更新现有行程
+      // 更新现有行程 - 深拷贝合并
       const index = trips.value.findIndex(t => t.id === normalizedTrip.id)
       if (index >= 0) {
+        const oldTrip = trips.value[index]
         const updatedTrip: Trip = {
-          ...trips.value[index],
+          ...oldTrip,
           ...normalizedTrip,
+          // 确保嵌套对象也被正确合并
+          budget: normalizedTrip.budget || oldTrip.budget,
+          transportation: normalizedTrip.transportation || oldTrip.transportation,
+          days: normalizedTrip.days || oldTrip.days,
           updatedAt: new Date().toISOString()
         }
         trips.value[index] = updatedTrip

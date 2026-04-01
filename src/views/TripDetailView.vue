@@ -186,9 +186,12 @@ function getCityNameFromTitle(title: string): string | null {
 
 // 获取行程标题对应的城市标志
 function getCityLogoFromTitle(title: string): string | null {
+  if (!title) return null
   const cityName = getCityNameFromTitle(title)
   if (cityName) {
-    return getCityLogo(cityName)
+    const logo = getCityLogo(cityName)
+    console.log(`城市标志：${cityName} -> ${logo}`)
+    return logo
   }
   return null
 }
