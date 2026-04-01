@@ -138,9 +138,9 @@ export const useTravelStore = defineStore('travel', () => {
           ...oldTrip,
           ...normalizedTrip,
           // 确保嵌套对象也被正确合并
-          budget: normalizedTrip.budget || oldTrip.budget,
-          transportation: normalizedTrip.transportation || oldTrip.transportation,
-          days: normalizedTrip.days || oldTrip.days,
+          budget: normalizedTrip.budget || oldTrip!.budget,
+          transportation: normalizedTrip.transportation || oldTrip!.transportation,
+          days: normalizedTrip.days || oldTrip!.days,
           updatedAt: new Date().toISOString()
         }
         trips.value[index] = updatedTrip
