@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import AppLayout from '@/components/layout/AppLayout.vue'
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { useTravelStore } from '@/stores/travel.store'
 import { useRouter } from 'vue-router'
 import { marked } from 'marked'
+import type { Trip } from '@/api/types/travel'
 
 const travelStore = useTravelStore()
 const router = useRouter()
@@ -41,20 +42,20 @@ async function sendMessage() {
   try {
     const response = await travelStore.chatWithAI(currentMessage)
     chatHistory.value.push({ sender: 'ai', content: response })
-  } catch (error) {
-    chatHistory.value.push({ sender: 'ai', content: '抱歉，AI暂时无法响应，请稍后再试。' })
+  } catch {
+    chatHistory.value.push({ sender: 'ai', content: '抱歉，AI 暂时无法响应，请稍后再试。' })
   } finally {
     isLoading.value = false
   }
 }
 
-// 解析AI生成的行程内容
+// 解析 AI 生成的行程内容
 function parseTripContent(content: string) {
   // 这里实现简单的行程内容解析逻辑
-  // 实际应用中，可能需要更复杂的解析逻辑或让AI返回结构化数据
+  // 实际应用中，可能需要更复杂的解析逻辑或让 AI 返回结构化数据
 
-  const trip = {
-    title: 'AI生成的行程',
+  const trip: Partial<Trip> = {
+    title: 'AI 生成的行程',
     start: new Date().toISOString().split('T')[0],
     end: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
     status: 'draft',
@@ -69,7 +70,7 @@ function parseTripContent(content: string) {
     const dayCount = Math.max(...dayMatches.map(m => parseInt(m.match(/\d+/)![0])))
 
     for (let i = 1; i <= dayCount; i++) {
-      trip.days.push({
+      trip.days!.push({
         label: `第${i}天`,
         date: new Date(Date.now() + (i - 1) * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
         slots: []
