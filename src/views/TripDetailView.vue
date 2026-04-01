@@ -141,8 +141,14 @@ const statusOptions = [
 // 来源选项
 const sourceOptions = [
   { value: 'manual', label: '手动创建' },
-  { value: 'ai', label: 'AI生成' }
+  { value: 'ai', label: 'AI 生成' }
 ]
+
+// 处理图片加载失败
+function handleImageError(event: Event) {
+  const img = event.target as HTMLImageElement
+  img.style.display = 'none'
+}
 </script>
 
 <template>
@@ -416,6 +422,26 @@ const sourceOptions = [
                     {{ slot.time }} - {{ slot.end }}
                   </div>
                   <div class="slot-content">
+                    <!-- 景点图片 -->
+                    <div v-if="slot.image || (slot.images && slot.images.length > 0)" class="slot-images">
+                      <img 
+                        v-if="slot.image" 
+                        :src="slot.image" 
+                        :alt="slot.text"
+                        class="slot-image-main"
+                        @error="handleImageError"
+                      />
+                      <div v-else-if="slot.images && slot.images.length > 0" class="slot-image-gallery">
+                        <img 
+                          v-for="(img, idx) in slot.images" 
+                          :key="idx"
+                          :src="img" 
+                          :alt="slot.text"
+                          class="slot-image-item"
+                          @error="handleImageError"
+                        />
+                      </div>
+                    </div>
                     <div class="slot-text">{{ slot.text }}</div>
                     <div v-if="slot.note" class="slot-note">{{ slot.note }}</div>
                   </div>
@@ -945,6 +971,45 @@ const sourceOptions = [
 
 .slot-content {
   flex: 1;
+}
+
+/* 景点图片样式 */
+.slot-images {
+  margin-bottom: 10px;
+}
+
+.slot-image-main {
+  width: 100%;
+  max-width: 400px;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+
+.slot-image-main:hover {
+  transform: scale(1.02);
+}
+
+.slot-image-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  max-width: 600px;
+}
+
+.slot-image-item {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+
+.slot-image-item:hover {
+  transform: scale(1.05);
 }
 
 .slot-text {

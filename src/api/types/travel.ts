@@ -6,10 +6,12 @@
 // ==================== 基础接口 ====================
 
 export interface Slot {
-  time: string;          // 开始时间，格式: "HH:mm"
-  end: string;           // 结束时间，格式: "HH:mm"
+  time: string;          // 开始时间，格式："HH:mm"
+  end: string;           // 结束时间，格式："HH:mm"
   text: string;          // 活动内容
   note?: string;         // 备注（前端使用）
+  image?: string;        // 景点图片 URL
+  images?: string[];     // 多个景点图片 URL 数组
 }
 
 export interface Day {
