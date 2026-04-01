@@ -162,7 +162,7 @@ function initializeDefaultDestinations() {
       rating: 4.6,
       reviewCount: 8900,
       highlights: ['漓江', '阳朔', '象鼻山', '龙脊梯田'],
-      bestSeason: '4-10月',
+      bestSeason: '4-10 月',
       recommendedDuration: 4,
       budget: {
         low: 1800,
@@ -198,6 +198,286 @@ function initializeDefaultDestinations() {
         high: 8000
       },
       transportation: ['飞机', '高铁', '地铁']
+    },
+    {
+      id: 'guangzhou',
+      name: '广州',
+      nameEn: 'Guangzhou',
+      description: '羊城，美食之都，千年商都',
+      image: 'https://images.unsplash.com/photo-1537511133960-3c9c3ff5a3a8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      location: {
+        country: '中国',
+        province: '广东',
+        city: '广州',
+        coordinates: {
+          lat: 23.1291,
+          lng: 113.2644
+        }
+      },
+      tags: ['美食', '购物', '现代都市', '历史文化'],
+      rating: 4.7,
+      reviewCount: 9800,
+      highlights: ['广州塔', '陈家祠', '沙面', '长隆'],
+      bestSeason: '全年',
+      recommendedDuration: 3,
+      budget: {
+        low: 2000,
+        medium: 4000,
+        high: 8000
+      },
+      transportation: ['飞机', '高铁', '地铁']
+    },
+    {
+      id: 'shenzhen',
+      name: '深圳',
+      nameEn: 'Shenzhen',
+      description: '创新之都，现代科技城市',
+      image: 'https://images.unsplash.com/photo-1508804185872-d7badad00f7d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      location: {
+        country: '中国',
+        province: '广东',
+        city: '深圳',
+        coordinates: {
+          lat: 22.5431,
+          lng: 114.0579
+        }
+      },
+      tags: ['现代都市', '购物', '科技', '主题公园'],
+      rating: 4.6,
+      reviewCount: 8500,
+      highlights: ['欢乐谷', '世界之窗', '华侨城', '大梅沙'],
+      bestSeason: '全年',
+      recommendedDuration: 3,
+      budget: {
+        low: 2500,
+        medium: 4500,
+        high: 9000
+      },
+      transportation: ['飞机', '高铁', '地铁']
+    },
+    {
+      id: 'nanjing',
+      name: '南京',
+      nameEn: 'Nanjing',
+      description: '六朝古都，历史文化名城',
+      image: 'https://images.unsplash.com/photo-1592906209472-a36b1f3782ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      location: {
+        country: '中国',
+        province: '江苏',
+        city: '南京',
+        coordinates: {
+          lat: 32.0603,
+          lng: 118.7969
+        }
+      },
+      tags: ['历史文化', '古建筑', '博物馆'],
+      rating: 4.7,
+      reviewCount: 8200,
+      highlights: ['中山陵', '夫子庙', '明孝陵', '南京博物院'],
+      bestSeason: '春秋两季',
+      recommendedDuration: 3,
+      budget: {
+        low: 2000,
+        medium: 4000,
+        high: 8000
+      },
+      transportation: ['飞机', '高铁', '地铁']
+    },
+    {
+      id: 'wuhan',
+      name: '武汉',
+      nameEn: 'Wuhan',
+      description: '江城，九省通衢',
+      image: 'https://images.unsplash.com/photo-1528164344705-47542687000d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      location: {
+        country: '中国',
+        province: '湖北',
+        city: '武汉',
+        coordinates: {
+          lat: 30.5928,
+          lng: 114.3055
+        }
+      },
+      tags: ['历史文化', '美食', '高校', '江湖风光'],
+      rating: 4.6,
+      reviewCount: 7500,
+      highlights: ['黄鹤楼', '东湖', '户部巷', '武汉大学'],
+      bestSeason: '春秋两季',
+      recommendedDuration: 3,
+      budget: {
+        low: 1800,
+        medium: 3500,
+        high: 7000
+      },
+      transportation: ['飞机', '高铁', '地铁']
+    },
+    {
+      id: 'chongqing',
+      name: '重庆',
+      nameEn: 'Chongqing',
+      description: '山城，火锅之都',
+      image: 'https://images.unsplash.com/photo-1537511133960-3c9c3ff5a3a8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      location: {
+        country: '中国',
+        province: '重庆',
+        city: '重庆',
+        coordinates: {
+          lat: 29.4316,
+          lng: 106.9123
+        }
+      },
+      tags: ['美食', '山城风光', '历史文化', '现代都市'],
+      rating: 4.8,
+      reviewCount: 11000,
+      highlights: ['洪崖洞', '解放碑', '磁器口', '武隆'],
+      bestSeason: '春秋两季',
+      recommendedDuration: 4,
+      budget: {
+        low: 2000,
+        medium: 4000,
+        high: 8000
+      },
+      transportation: ['飞机', '高铁', '轻轨']
+    },
+    {
+      id: 'tianjin',
+      name: '天津',
+      nameEn: 'Tianjin',
+      description: '渤海明珠，近代历史名城',
+      image: 'https://images.unsplash.com/photo-1508804185872-d7badad00f7d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      location: {
+        country: '中国',
+        province: '天津',
+        city: '天津',
+        coordinates: {
+          lat: 39.3434,
+          lng: 117.3616
+        }
+      },
+      tags: ['历史文化', '美食', '现代都市'],
+      rating: 4.5,
+      reviewCount: 6800,
+      highlights: ['古文化街', '五大道', '天津眼', '滨海图书馆'],
+      bestSeason: '春秋两季',
+      recommendedDuration: 2,
+      budget: {
+        low: 1500,
+        medium: 3000,
+        high: 6000
+      },
+      transportation: ['飞机', '高铁', '地铁']
+    },
+    {
+      id: 'kunming',
+      name: '昆明',
+      nameEn: 'Kunming',
+      description: '春城，四季如春',
+      image: 'https://images.unsplash.com/photo-1544984243-ec57ea16fe25?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      location: {
+        country: '中国',
+        province: '云南',
+        city: '昆明',
+        coordinates: {
+          lat: 25.0406,
+          lng: 102.7125
+        }
+      },
+      tags: ['自然风光', '气候宜人', '少数民族', '花卉'],
+      rating: 4.6,
+      reviewCount: 7200,
+      highlights: ['石林', '滇池', '大理古城', '丽江'],
+      bestSeason: '全年',
+      recommendedDuration: 5,
+      budget: {
+        low: 2500,
+        medium: 5000,
+        high: 10000
+      },
+      transportation: ['飞机', '高铁']
+    },
+    {
+      id: 'sanya',
+      name: '三亚',
+      nameEn: 'Sanya',
+      description: '热带滨海城市，度假天堂',
+      image: 'https://images.unsplash.com/photo-1508804185872-d7badad00f7d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      location: {
+        country: '中国',
+        province: '海南',
+        city: '三亚',
+        coordinates: {
+          lat: 18.4066,
+          lng: 109.8421
+        }
+      },
+      tags: ['海滨度假', '热带风光', '水上运动', '休闲'],
+      rating: 4.7,
+      reviewCount: 9500,
+      highlights: ['亚龙湾', '天涯海角', '南山寺', '蜈支洲岛'],
+      bestSeason: '冬季',
+      recommendedDuration: 5,
+      budget: {
+        low: 3000,
+        medium: 6000,
+        high: 12000
+      },
+      transportation: ['飞机']
+    },
+    {
+      id: 'lijiang',
+      name: '丽江',
+      nameEn: 'Lijiang',
+      description: '古城风光，纳西族文化',
+      image: 'https://images.unsplash.com/photo-1528164344705-47542687000d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      location: {
+        country: '中国',
+        province: '云南',
+        city: '丽江',
+        coordinates: {
+          lat: 26.8721,
+          lng: 100.2278
+        }
+      },
+      tags: ['古城', '少数民族', '历史文化', '休闲'],
+      rating: 4.7,
+      reviewCount: 8800,
+      highlights: ['丽江古城', '玉龙雪山', '泸沽湖', '束河古镇'],
+      bestSeason: '全年',
+      recommendedDuration: 4,
+      budget: {
+        low: 2500,
+        medium: 5000,
+        high: 10000
+      },
+      transportation: ['飞机', '高铁']
+    },
+    {
+      id: 'zhangjiajie',
+      name: '张家界',
+      nameEn: 'Zhangjiajie',
+      description: '奇峰异石，阿凡达取景地',
+      image: 'https://images.unsplash.com/photo-1537511133960-3c9c3ff5a3a8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      location: {
+        country: '中国',
+        province: '湖南',
+        city: '张家界',
+        coordinates: {
+          lat: 29.1167,
+          lng: 110.4833
+        }
+      },
+      tags: ['自然风光', '山峰', '摄影', '世界遗产'],
+      rating: 4.8,
+      reviewCount: 9200,
+      highlights: ['武陵源', '天门山', '袁家界', '金鞭溪'],
+      bestSeason: '春秋两季',
+      recommendedDuration: 3,
+      budget: {
+        low: 2000,
+        medium: 4000,
+        high: 8000
+      },
+      transportation: ['飞机', '高铁']
     }
   ]
   
