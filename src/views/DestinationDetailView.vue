@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AppLayout from '@/components/layout/AppLayout.vue'
-import AMapDestination from '@/components/AMapDestination.vue'
+import OSMDestination from '@/components/OSMDestination.vue'
 import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useDestinationStore } from '@/stores/destination.store'
@@ -242,7 +242,7 @@ function goBack() {
             <div class="sidebar-card map-card">
               <h3>位置</h3>
               <div class="map-wrapper">
-                <AMapDestination
+                <OSMDestination
                   v-if="destination"
                   :destinations="[destination]"
                   height="300px"

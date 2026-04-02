@@ -362,7 +362,7 @@ export const useTravelStore = defineStore('travel', () => {
    * 用户登录（模拟）
    */
   function login(username: string, password: string): boolean {
-    // TODO: 实现实际的登录API调用
+    // TODO: 实现实际的登录 API 调用
     if (username && password) {
       user.value = {
         id: '1',
@@ -370,6 +370,8 @@ export const useTravelStore = defineStore('travel', () => {
         email: `${username}@example.com`,
         isAuthenticated: true
       }
+      // 保存认证信息到 localStorage
+      localStorage.setItem('auth_token', 'mock_token_' + Date.now())
       return true
     }
     return false

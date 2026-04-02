@@ -111,24 +111,31 @@ export const useDestinationStore = defineStore('destination', () => {
   // ==================== 初始化 ====================
 
   /**
-   * 从localStorage加载数据
+   * 从 localStorage 加载数据
    */
   function loadFromStorage() {
     try {
       // 加载目的地数据
       const destinationsData = localStorage.getItem(STORAGE_KEYS.DESTINATIONS)
       if (destinationsData) {
-        destinations.value = JSON.parse(destinationsData)
+        const parsed = JSON.parse(destinationsData)
+        // 检查数据完整性
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          destinations.value = parsed
+        }
       }
-
+  
       // 加载收藏列表
       const favoritesData = localStorage.getItem(STORAGE_KEYS.FAVORITES)
       if (favoritesData) {
         favoriteIds.value = JSON.parse(favoritesData)
       }
     } catch (err) {
-      console.error('从localStorage加载数据失败:', err)
+      console.error('从 localStorage 加载数据失败:', err)
       error.value = '加载本地数据失败'
+      // 清除损坏的数据
+      localStorage.removeItem(STORAGE_KEYS.DESTINATIONS)
+      localStorage.removeItem(STORAGE_KEYS.FAVORITES)
     }
   }
 

@@ -10,10 +10,15 @@ const travelStore = useTravelStore()
 const router = useRouter()
 const message = ref('')
 const isLoading = ref(false)
-const chatHistory = ref<Array<{ sender: string; content: string }>>([])
+const chatHistory = ref<Array<{ sender: string; content: string; timestamp?: Date }>>([])
 const isImporting = ref(false)
 
-// 将Markdown转换为HTML
+// 格式化时间
+function formatTime(date: Date): string {
+  return date.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })
+}
+
+// 将 Markdown 转换为 HTML
 const renderMarkdown = (content: string) => {
   return marked(content)
 }
@@ -33,7 +38,8 @@ async function sendMessage() {
   if (!message.value.trim()) return
 
   const userMessage = message.value.trim()
-  chatHistory.value.push({ sender: 'user', content: userMessage })
+  const now = new Date()
+  chatHistory.value.push({ sender: 'user', content: userMessage, timestamp: now })
   const currentMessage = userMessage
 
   message.value = ''
@@ -41,9 +47,9 @@ async function sendMessage() {
 
   try {
     const response = await travelStore.chatWithAI(currentMessage)
-    chatHistory.value.push({ sender: 'ai', content: response })
+    chatHistory.value.push({ sender: 'ai', content: response, timestamp: new Date() })
   } catch {
-    chatHistory.value.push({ sender: 'ai', content: '抱歉，AI 暂时无法响应，请稍后再试。' })
+    chatHistory.value.push({ sender: 'ai', content: '抱歉，AI 暂时无法响应，请稍后再试。', timestamp: new Date() })
   } finally {
     isLoading.value = false
   }
@@ -163,7 +169,7 @@ function startNewChat() {
                 </div>
                 <div class="message-content">
                   <div class="message-text" v-html="renderMarkdown(msg.content)"></div>
-                  <div class="message-time">{{ new Date().toLocaleTimeString() }}</div>
+                  <div class="message-time">{{ msg.timestamp ? formatTime(msg.timestamp) : '' }}</div>
                   <!-- 添加导入行程按钮 -->
                   <div v-if="msg.sender === 'ai' && hasTripInfo(index)" class="message-actions">
                     <button 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AppLayout from '@/components/layout/AppLayout.vue'
-import AMapDestination from '@/components/AMapDestination.vue'
+import OSMDestination from '@/components/OSMDestination.vue'
 import { ref, computed, onMounted } from 'vue'
 import { useDestinationStore } from '@/stores/destination.store'
 import type { Destination } from '@/api/types/travel'
@@ -151,7 +151,7 @@ function handleMapDestinationClick(destination: Destination) {
             <h3>交互式地图</h3>
             <p>点击目的地标记查看详细信息</p>
           </div>
-          <AMapDestination
+          <OSMDestination
             :destinations="filteredDestinations"
             height="500px"
             @destination-click="handleMapDestinationClick"
