@@ -25,31 +25,45 @@ let markers: L.Marker[] = []
 
 // 初始化地图
 function initMap() {
-  if (!mapContainer.value) return
+  if (!mapContainer.value) {
+    console.error('地图容器不存在')
+    return
+  }
 
   try {
+    console.log('开始初始化 OSM 地图...')
+    console.log('容器尺寸:', mapContainer.value.offsetWidth, 'x', mapContainer.value.offsetHeight)
+    
     // 创建地图实例（使用 OSM）
     map = L.map(mapContainer.value, {
       center: [35.8617, 104.1954], // 中国中心点
       zoom: props.zoom,
-      zoomControl: false // 禁用默认缩放控件
+      zoomControl: false, // 禁用默认缩放控件
+      preferCanvas: true // 优先使用 Canvas 渲染
     })
 
-    // 添加 OSM 图层
+    console.log('地图实例创建成功')
+
+    // 添加 OSM 图层 - 使用多个子域名提高加载速度
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      maxZoom: 19
+      maxZoom: 19,
+      subdomains: 'abc'
     }).addTo(map)
+    
+    console.log('OSM 图层添加成功')
 
     // 添加缩放控件到右下角
     L.control.zoom({
       position: 'bottomright'
     }).addTo(map)
+    
+    console.log('缩放控件添加成功')
 
     // 添加目的地标记
     addMarkers()
 
-    console.log('OSM 地图初始化成功')
+    console.log('OSM 地图初始化完成')
   } catch (error) {
     console.error('初始化 OSM 地图失败:', error)
   }
@@ -141,13 +155,16 @@ defineExpose({
 <style scoped>
 .osm-destination {
   width: 100%;
+  height: 100%;
   border-radius: 8px;
   overflow: hidden;
+  background: #f0f0f0;
 }
 
 .map-container {
   width: 100%;
   height: 100%;
+  min-height: 300px; /* 确保最小高度 */
 }
 
 /* 修复 Leaflet 标记点阴影问题 */
